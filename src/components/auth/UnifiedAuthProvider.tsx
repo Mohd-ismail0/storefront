@@ -3,7 +3,7 @@
 import { ClerkProvider, useUser } from '@clerk/nextjs';
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import { CustomerSyncService } from '@/lib/customer-sync-simple';
-import { CLERK_CONFIG } from '@/lib/clerk';
+import { CLERK_CLIENT_CONFIG } from '@/lib/clerk';
 
 // Types
 export interface SaleorCustomer {
@@ -27,7 +27,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 // Main provider component
 export function UnifiedAuthProvider({ children }: { children: ReactNode }) {
   return (
-    <ClerkProvider publishableKey={CLERK_CONFIG.publishableKey}>
+    <ClerkProvider publishableKey={CLERK_CLIENT_CONFIG.publishableKey}>
       <AuthContextProvider>{children}</AuthContextProvider>
     </ClerkProvider>
   );
