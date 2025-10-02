@@ -4,6 +4,7 @@ import { Suspense, type ReactNode } from "react";
 import { type Metadata } from "next";
 import { DraftModeNotification } from "@/ui/components/DraftModeNotification";
 import { UnifiedAuthProvider } from "@/components/auth/UnifiedAuthProvider";
+import "@/lib/env-validation"; // Validate environment variables
 
 const inter = Inter({ subsets: ["latin"] });
 
