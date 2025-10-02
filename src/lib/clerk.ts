@@ -1,0 +1,19 @@
+// Clerk configuration constants
+export const CLERK_CONFIG = {
+  publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!,
+  secretKey: process.env.CLERK_SECRET_KEY!,
+  webhookSecret: process.env.CLERK_WEBHOOK_SECRET!,
+} as const;
+
+// Validate environment variables
+if (!CLERK_CONFIG.publishableKey) {
+  throw new Error('Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY environment variable');
+}
+
+if (!CLERK_CONFIG.secretKey) {
+  throw new Error('Missing CLERK_SECRET_KEY environment variable');
+}
+
+if (!CLERK_CONFIG.webhookSecret) {
+  throw new Error('Missing CLERK_WEBHOOK_SECRET environment variable');
+}

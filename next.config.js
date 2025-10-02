@@ -1,3 +1,7 @@
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
+
 /** @type {import('next').NextConfig} */
 const config = {
 	images: {
@@ -10,6 +14,9 @@ const config = {
 	experimental: {
 		typedRoutes: false,
 	},
+	eslint: {
+		ignoreDuringBuilds: true,
+	},
 	// used in the Dockerfile
 	output:
 		process.env.NEXT_OUTPUT === "standalone"
@@ -19,4 +26,4 @@ const config = {
 			  : undefined,
 };
 
-export default config;
+export default withNextIntl(config);

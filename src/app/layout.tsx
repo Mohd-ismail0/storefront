@@ -3,12 +3,13 @@ import "./globals.css";
 import { Suspense, type ReactNode } from "react";
 import { type Metadata } from "next";
 import { DraftModeNotification } from "@/ui/components/DraftModeNotification";
+import { UnifiedAuthProvider } from "@/components/auth/UnifiedAuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "Saleor Storefront example",
-	description: "Starter pack for building performant e-commerce experiences with Saleor.",
+	title: "Modern Ecommerce Store",
+	description: "Premium ecommerce experience with Arabic and English support, powered by Saleor and Clerk.",
 	metadataBase: process.env.NEXT_PUBLIC_STOREFRONT_URL
 		? new URL(process.env.NEXT_PUBLIC_STOREFRONT_URL)
 		: undefined,
@@ -20,10 +21,12 @@ export default function RootLayout(props: { children: ReactNode }) {
 	return (
 		<html lang="en" className="min-h-dvh">
 			<body className={`${inter.className} min-h-dvh`}>
-				{children}
-				<Suspense>
-					<DraftModeNotification />
-				</Suspense>
+				<UnifiedAuthProvider>
+					{children}
+					<Suspense>
+						<DraftModeNotification />
+					</Suspense>
+				</UnifiedAuthProvider>
 			</body>
 		</html>
 	);
