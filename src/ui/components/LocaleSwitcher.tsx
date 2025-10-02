@@ -1,8 +1,9 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
-import { Globe } from 'lucide-react';
+import { Globe, ChevronDown } from 'lucide-react';
 import { locales, localeConfig } from '@/lib/i18n';
+import { cn } from '@/lib/utils';
 
 interface LocaleSwitcherProps {
   currentLocale: string;
@@ -26,7 +27,13 @@ export function LocaleSwitcher({ currentLocale }: LocaleSwitcherProps) {
       <select
         value={currentLocale}
         onChange={(e) => handleLocaleChange(e.target.value)}
-        className="appearance-none bg-transparent border-none text-sm font-medium text-gray-700 hover:text-gray-900 focus:outline-none cursor-pointer pr-6"
+        className={cn(
+          'appearance-none bg-transparent border border-neutral-300 rounded-lg px-3 py-2 pr-8',
+          'text-sm font-medium text-neutral-700 hover:text-neutral-900',
+          'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500',
+          'cursor-pointer transition-colors duration-200',
+          'min-w-[120px]'
+        )}
         aria-label="Select language"
       >
         {locales.map((locale) => (
@@ -35,7 +42,9 @@ export function LocaleSwitcher({ currentLocale }: LocaleSwitcherProps) {
           </option>
         ))}
       </select>
-      <Globe className="absolute right-0 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+      <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+        <ChevronDown className="w-4 h-4 text-neutral-500" />
+      </div>
     </div>
   );
 }

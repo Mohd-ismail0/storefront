@@ -1,43 +1,60 @@
-export const formatDate = (date: Date | number) => {
-	return new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(date);
-};
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
-export const formatMoney = (amount: number, currency: string) =>
-	new Intl.NumberFormat("en-US", {
-		style: "currency",
-		currency,
-	}).format(amount);
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
-export const formatMoneyRange = (
-	range: {
-		start?: { amount: number; currency: string } | null;
-		stop?: { amount: number; currency: string } | null;
-	} | null,
-) => {
-	const { start, stop } = range || {};
-	const startMoney = start && formatMoney(start.amount, start.currency);
-	const stopMoney = stop && formatMoney(stop.amount, stop.currency);
+export function formatPrice(price: number, currency: string = 'USD'): string {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency,
+  }).format(price);
+}
 
-	if (startMoney === stopMoney) {
-		return startMoney;
-	}
+export function formatDate(date: Date | string, locale: string = 'en'): string {
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  return new Intl.DateTimeFormat(locale, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(dateObj);
+}
 
-	return `${startMoney} - ${stopMoney}`;
-};
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
 
-export function getHrefForVariant({
-	productSlug,
-	variantId,
-}: {
-	productSlug: string;
-	variantId?: string;
-}): string {
-	const pathname = `/products/${encodeURIComponent(productSlug)}`;
+export function truncateText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength).trim() + '...';
+}
 
-	if (!variantId) {
-		return pathname;
-	}
+export function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout;
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+}
 
-	const query = new URLSearchParams({ variant: variantId });
-	return `${pathname}?${query.toString()}`;
+export function throttle<T extends (...args: any[]) => any>(
+  func: T,
+  limit: number
+): (...args: Parameters<T>) => void {
+  let inThrottle: boolean;
+  return (...args: Parameters<T>) => {
+    if (!inThrottle) {
+      func(...args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  };
 }
