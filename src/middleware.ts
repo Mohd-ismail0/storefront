@@ -1,6 +1,6 @@
-import { clerkMiddleware } from '@clerk/nextjs/server';
 import createMiddleware from 'next-intl/middleware';
 import { locales, defaultLocale } from './lib/i18n';
+import { NextRequest } from 'next/server';
 
 // Create internationalization middleware
 const intlMiddleware = createMiddleware({
@@ -9,16 +9,16 @@ const intlMiddleware = createMiddleware({
   localePrefix: 'always'
 });
 
-export default clerkMiddleware((_auth, req) => {
+export default function middleware(req: NextRequest) {
   // Handle internationalization first
   const intlResponse = intlMiddleware(req);
   if (intlResponse) {
     return intlResponse;
   }
 
-  // TODO: Add authentication protection for protected routes
-  // This will be implemented in Phase 2
-});
+  // TODO: Add Firebase authentication protection for protected routes
+  // This will be implemented in Phase 3
+}
 
 export const config = {
   matcher: [
