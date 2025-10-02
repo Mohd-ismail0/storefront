@@ -60,15 +60,23 @@ export async function generateMetadata(
 	};
 }
 
-export async function generateStaticParams({ params }: { params: { channel: string } }) {
-	const { products } = await executeGraphQL(ProductListDocument, {
-		revalidate: 60,
-		variables: { first: 20, channel: params.channel },
-		withAuth: false,
-	});
+export async function generateStaticParams({ params }: { params: Promise<{ channel: string }> }) {
+	const resolvedParams = await params;
+	
+	try {
+		const { products } = await executeGraphQL(ProductListDocument, {
+			revalidate: 60,
+			variables: { first: 20, channel: resolvedParams.channel },
+			withAuth: false,
+		});
 
-	const paths = products?.edges.map(({ node: { slug } }) => ({ slug })) || [];
-	return paths;
+		const paths = products?.edges.map(({ node: { slug } }) => ({ slug })) || [];
+		return paths;
+	} catch (error) {
+		console.warn('Failed to generate static params for products:', error);
+		// Return empty array to prevent build failure
+		return [];
+	}
 }
 
 const parser = edjsHTML();

@@ -1,7 +1,7 @@
 import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { CustomerSyncService } from '@/lib/customer-sync-simple';
-import { CLERK_CONFIG } from '@/lib/clerk';
+import { validateWebhookSecret } from '@/lib/clerk';
 
 export async function POST(request: Request) {
   // Get the headers
@@ -21,7 +21,8 @@ export async function POST(request: Request) {
   const payload = await request.text();
 
   // Create a new Svix instance with your secret.
-  const wh = new Webhook(CLERK_CONFIG.webhookSecret);
+  const webhookSecret = validateWebhookSecret();
+  const wh = new Webhook(webhookSecret);
 
   let evt: any;
 
