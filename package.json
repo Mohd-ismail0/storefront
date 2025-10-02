@@ -21,6 +21,7 @@
 		"@clerk/nextjs": "6.33.1",
 		"@headlessui/react": "1.7.18",
 		"@hookform/resolvers": "5.2.2",
+		"@radix-ui/react-slot": "1.2.3",
 		"@saleor/auth-sdk": "1.0.3",
 		"@stripe/react-stripe-js": "2.6.2",
 		"@stripe/stripe-js": "2.2.0",

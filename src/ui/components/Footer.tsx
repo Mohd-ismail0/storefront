@@ -28,13 +28,13 @@ export async function Footer({
 	const currentYear = new Date().getFullYear();
 
 	return (
-		<footer className="bg-neutral-900 text-white">
-			<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-				<div className="grid grid-cols-1 gap-8 py-16 md:grid-cols-2 lg:grid-cols-4">
+		<footer className="border-t bg-background">
+			<div className="container py-8 md:py-12">
+				<div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
 					{footerLinks.menu?.items?.map((item) => {
 						return (
 							<div key={item.id} className="space-y-4">
-								<h3 className="text-lg font-semibold text-white">{item.name}</h3>
+								<h3 className="text-lg font-semibold">{item.name}</h3>
 								<ul className="space-y-3">
 									{item.children?.map((child) => {
 										if (child.category) {
@@ -42,7 +42,7 @@ export async function Footer({
 												<li key={child.id}>
 													<LinkWithChannel 
 														href={`/categories/${child.category.slug}`}
-														className="text-neutral-300 hover:text-white transition-colors duration-200"
+														className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
 													>
 														{child.category.name}
 													</LinkWithChannel>
@@ -54,7 +54,7 @@ export async function Footer({
 												<li key={child.id}>
 													<LinkWithChannel 
 														href={`/collections/${child.collection.slug}`}
-														className="text-neutral-300 hover:text-white transition-colors duration-200"
+														className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
 													>
 														{child.collection.name}
 													</LinkWithChannel>
@@ -66,7 +66,7 @@ export async function Footer({
 												<li key={child.id}>
 													<LinkWithChannel 
 														href={`/pages/${child.page.slug}`}
-														className="text-neutral-300 hover:text-white transition-colors duration-200"
+														className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
 													>
 														{child.page.title}
 													</LinkWithChannel>
@@ -78,7 +78,7 @@ export async function Footer({
 												<li key={child.id}>
 													<LinkWithChannel 
 														href={child.url}
-														className="text-neutral-300 hover:text-white transition-colors duration-200"
+														className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
 													>
 														{child.name}
 													</LinkWithChannel>
@@ -94,25 +94,25 @@ export async function Footer({
 				</div>
 
 				{channels?.channels && (
-					<div className="mb-8 border-t border-neutral-800 pt-8">
-						<div className="flex items-center gap-2 text-neutral-300">
-							<span className="text-sm">Change currency:</span> 
+					<div className="mt-8 border-t pt-8">
+						<div className="flex items-center gap-2 text-sm text-muted-foreground">
+							<span>Change currency:</span> 
 							<ChannelSelect channels={channels.channels} />
 						</div>
 					</div>
 				)}
 
-				<div className="flex flex-col justify-between border-t border-neutral-800 py-8 sm:flex-row sm:items-center">
-					<p className="text-sm text-neutral-400">
+				<div className="mt-8 flex flex-col justify-between border-t pt-8 sm:flex-row sm:items-center">
+					<p className="text-sm text-muted-foreground">
 						Copyright &copy; {currentYear} Modern Ecommerce Store. All rights reserved.
 					</p>
 					<div className="flex items-center gap-4 mt-4 sm:mt-0">
-						<p className="flex items-center gap-2 text-sm text-neutral-400">
+						<p className="flex items-center gap-2 text-sm text-muted-foreground">
 							Powered by{" "}
 							<Link 
 								target="_blank" 
 								href="https://saleor.io/"
-								className="text-primary-400 hover:text-primary-300 transition-colors duration-200"
+								className="text-primary hover:text-primary/80 transition-colors duration-200"
 							>
 								Saleor
 							</Link>

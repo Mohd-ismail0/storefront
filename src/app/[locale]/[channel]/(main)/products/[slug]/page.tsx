@@ -129,10 +129,11 @@ export default async function Page(props: {
 	const price = selectedVariant?.pricing?.price?.gross
 		? formatMoney(selectedVariant.pricing.price.gross.amount, selectedVariant.pricing.price.gross.currency)
 		: isAvailable
-			? formatMoneyRange({
-					start: product?.pricing?.priceRange?.start?.gross,
-					stop: product?.pricing?.priceRange?.stop?.gross,
-				})
+			? formatMoneyRange(
+					product?.pricing?.priceRange?.start?.gross?.amount || 0,
+					product?.pricing?.priceRange?.stop?.gross?.amount || 0,
+					product?.pricing?.priceRange?.start?.gross?.currency || 'USD'
+				)
 			: "";
 
 	const productJsonLd: WithContext<Product> = {

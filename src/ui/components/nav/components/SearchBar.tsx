@@ -29,16 +29,16 @@ export const SearchBar = ({
 					placeholder="Search for products..."
 					autoComplete="on"
 					required
-					className="h-10 w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 pr-10 text-sm text-neutral-900 placeholder:text-neutral-500 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-all duration-200"
+					className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 pr-9"
 				/>
 			</label>
 			<div className="absolute inset-y-0 right-0 flex items-center pr-3">
 				<button
 					type="submit"
-					className="inline-flex aspect-square w-6 items-center justify-center text-neutral-500 hover:text-primary-600 focus:text-primary-600 transition-colors duration-200"
+					className="inline-flex aspect-square w-6 items-center justify-center text-muted-foreground hover:text-foreground focus:text-foreground transition-colors duration-200"
 				>
 					<span className="sr-only">search</span>
-					<SearchIcon aria-hidden className="h-5 w-5" />
+					<SearchIcon aria-hidden className="h-4 w-4" />
 				</button>
 			</div>
 		</form>

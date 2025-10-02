@@ -76,11 +76,11 @@ export const OrderListItem = ({ order }: Props) => {
 														</div>
 													)}
 													<div>
-														<LinkWithChannel
-															href={getHrefForVariant({
-																productSlug: product.slug,
-																variantId: item.variant.id,
-															})}
+										<LinkWithChannel
+											href={getHrefForVariant(
+												product.slug,
+												item.variant.id
+											)}
 															className="font-medium text-neutral-900"
 														>
 															{product.name}

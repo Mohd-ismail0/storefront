@@ -58,10 +58,10 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 								<div className="flex justify-between justify-items-start gap-4">
 									<div>
 										<LinkWithChannel
-											href={getHrefForVariant({
-												productSlug: item.variant.product.slug,
-												variantId: item.variant.id,
-											})}
+											href={getHrefForVariant(
+												item.variant.product.slug,
+												item.variant.id
+											)}
 										>
 											<h2 className="font-medium text-neutral-700">{item.variant?.product?.name}</h2>
 										</LinkWithChannel>
