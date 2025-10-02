@@ -1,5 +1,6 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
-export default function EmptyPage() {
-	redirect("/default-channel");
+export default function RootRedirect() {
+	// Redirect to English locale by default
+	redirect('/en');
 }
