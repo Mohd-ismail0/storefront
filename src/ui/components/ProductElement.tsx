@@ -32,10 +32,11 @@ export function ProductElement({
 							</p>
 						</div>
 						<p className="mt-1 text-sm font-medium text-neutral-900" data-testid="ProductElement_PriceRange">
-							{formatMoneyRange({
-								start: product?.pricing?.priceRange?.start?.gross,
-								stop: product?.pricing?.priceRange?.stop?.gross,
-							})}
+						{formatMoneyRange(
+							product?.pricing?.priceRange?.start?.gross?.amount || 0,
+							product?.pricing?.priceRange?.stop?.gross?.amount || 0,
+							product?.pricing?.priceRange?.start?.gross?.currency || 'USD'
+						)}
 						</p>
 					</div>
 				</div>

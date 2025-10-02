@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
-import { Globe, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { locales, localeConfig } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
@@ -28,9 +28,7 @@ export function LocaleSwitcher({ currentLocale }: LocaleSwitcherProps) {
         value={currentLocale}
         onChange={(e) => handleLocaleChange(e.target.value)}
         className={cn(
-          'appearance-none bg-transparent border border-neutral-300 rounded-lg px-3 py-2 pr-8',
-          'text-sm font-medium text-neutral-700 hover:text-neutral-900',
-          'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500',
+          'flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1',
           'cursor-pointer transition-colors duration-200',
           'min-w-[120px]'
         )}
@@ -43,7 +41,7 @@ export function LocaleSwitcher({ currentLocale }: LocaleSwitcherProps) {
         ))}
       </select>
       <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
-        <ChevronDown className="w-4 h-4 text-neutral-500" />
+        <ChevronDown className="h-4 w-4 opacity-50" />
       </div>
     </div>
   );

@@ -4,9 +4,9 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Heart, ShoppingCart, Eye, Star } from 'lucide-react';
-import { Card, CardContent } from './Card';
-import { Button } from './Button';
-import { Badge } from './Badge';
+import { Card, CardContent } from './card';
+import { Button } from './button';
+import { Badge } from './badge';
 import { cn } from '@/lib/utils';
 
 export interface ProductCardProps {
@@ -83,8 +83,8 @@ export function ProductCard({
         className={cn(
           'h-4 w-4',
           i < Math.floor(rating)
-            ? 'fill-warning-400 text-warning-400'
-            : 'text-neutral-300'
+            ? 'fill-yellow-400 text-yellow-400'
+            : 'text-muted-foreground'
         )}
       />
     ));
@@ -140,7 +140,7 @@ export function ProductCard({
             <Heart
               className={cn(
                 'h-4 w-4 transition-colors',
-                isWishlisted ? 'fill-accent-500 text-accent-500' : 'text-neutral-600'
+                isWishlisted ? 'fill-destructive text-destructive' : 'text-muted-foreground'
               )}
             />
           </Button>
@@ -150,7 +150,7 @@ export function ProductCard({
             className="h-8 w-8 shadow-md"
             onClick={handleQuickView}
           >
-            <Eye className="h-4 w-4 text-neutral-600" />
+            <Eye className="h-4 w-4 text-muted-foreground" />
           </Button>
         </div>
       </div>
@@ -159,7 +159,7 @@ export function ProductCard({
         <div className="space-y-3">
           {/* Product Name */}
           <Link href={`/products/${slug}`} className="block">
-            <h3 className="font-medium text-neutral-900 line-clamp-2 hover:text-primary-600 transition-colors">
+            <h3 className="font-medium text-foreground line-clamp-2 hover:text-primary transition-colors">
               {name}
             </h3>
           </Link>
@@ -168,7 +168,7 @@ export function ProductCard({
           {rating > 0 && (
             <div className="flex items-center gap-2">
               <div className="flex items-center">{renderStars(rating)}</div>
-              <span className="text-sm text-neutral-500">
+              <span className="text-sm text-muted-foreground">
                 ({reviewCount})
               </span>
             </div>
@@ -176,11 +176,11 @@ export function ProductCard({
 
           {/* Price */}
           <div className="flex items-center gap-2">
-            <span className="text-lg font-semibold text-neutral-900">
+            <span className="text-lg font-semibold text-foreground">
               {formatPrice(price)}
             </span>
             {originalPrice && (
-              <span className="text-sm text-neutral-500 line-through">
+              <span className="text-sm text-muted-foreground line-through">
                 {formatPrice(originalPrice)}
               </span>
             )}

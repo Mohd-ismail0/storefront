@@ -10,23 +10,25 @@ export function Header({
 	locale: string; 
 }) {
 	return (
-		<header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-neutral-200 shadow-sm">
-			<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-				<div className="flex h-16 items-center justify-between">
-					<div className="flex items-center">
-						<Logo />
+		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+			<div className="container flex h-16 items-center">
+				<div className="mr-4 flex">
+					<Logo />
+				</div>
+				
+				<div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+					<div className="w-full flex-1 md:w-auto md:flex-none">
+						<div className="hidden md:flex md:items-center md:space-x-6">
+							<Nav channel={channel} locale={locale} />
+						</div>
 					</div>
 					
-					<div className="hidden md:flex md:items-center md:space-x-8">
-						<Nav channel={channel} locale={locale} />
-					</div>
-					
-					<div className="flex items-center space-x-4">
+					<nav className="flex items-center space-x-2">
 						<LocaleSwitcher currentLocale={locale} />
 						<div className="md:hidden">
 							<Nav channel={channel} locale={locale} />
 						</div>
-					</div>
+					</nav>
 				</div>
 			</div>
 		</header>

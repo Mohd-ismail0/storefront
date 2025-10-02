@@ -12,6 +12,25 @@ export function formatPrice(price: number, currency: string = 'USD'): string {
   }).format(price);
 }
 
+export function formatMoney(price: number, currency: string = 'USD'): string {
+  return formatPrice(price, currency);
+}
+
+export function formatMoneyRange(
+  minPrice: number,
+  maxPrice: number,
+  currency: string = 'USD'
+): string {
+  if (minPrice === maxPrice) {
+    return formatPrice(minPrice, currency);
+  }
+  return `${formatPrice(minPrice, currency)} - ${formatPrice(maxPrice, currency)}`;
+}
+
+export function getHrefForVariant(productSlug: string, variantId: string): string {
+  return `/products/${productSlug}?variant=${variantId}`;
+}
+
 export function formatDate(date: Date | string, locale: string = 'en'): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   return new Intl.DateTimeFormat(locale, {
