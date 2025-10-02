@@ -15,6 +15,18 @@ export function validateEnvironmentVariables() {
     errors.push('Missing NEXT_PUBLIC_FIREBASE_PROJECT_ID');
   }
   
+  if (!process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET) {
+    errors.push('Missing NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET');
+  }
+  
+  if (!process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID) {
+    errors.push('Missing NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID');
+  }
+  
+  if (!process.env.NEXT_PUBLIC_FIREBASE_APP_ID) {
+    errors.push('Missing NEXT_PUBLIC_FIREBASE_APP_ID');
+  }
+  
   if (!process.env.NEXT_PUBLIC_SALEOR_API_URL) {
     errors.push('Missing NEXT_PUBLIC_SALEOR_API_URL');
   }
