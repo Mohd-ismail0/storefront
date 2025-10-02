@@ -1,51 +1,45 @@
-export interface ClerkUser {
-  id: string;
-  email_addresses: Array<{
-    email_address: string;
-    verification: {
-      status: string;
-    };
-  }>;
-  first_name: string | null;
-  last_name: string | null;
-  created_at: number;
-  updated_at: number;
+export interface FirebaseUser {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
+  phoneNumber: string | null;
+  photoURL: string | null;
+  emailVerified: boolean;
+  createdAt: number;
+  lastSignInTime: number;
 }
 
 export class CustomerSyncService {
   /**
-   * Create a new customer in Saleor when a user is created in Clerk
+   * Create a new customer in Saleor when a user is created in Firebase
    */
-  static async createSaleorCustomer(clerkUser: ClerkUser) {
+  static async createSaleorCustomer(firebaseUser: FirebaseUser) {
     try {
-      const primaryEmail = clerkUser.email_addresses.find(
-        email => email.verification.status === 'verified'
-      ) || clerkUser.email_addresses[0];
-
-      if (!primaryEmail) {
-        throw new Error('No email address found for Clerk user');
+      if (!firebaseUser.email) {
+        throw new Error('No email address found for Firebase user');
       }
 
       // For now, we'll just log the customer creation
       // In a real implementation, you would call the Saleor API
-      console.log('Creating Saleor customer for Clerk user:', {
-        clerkUserId: clerkUser.id,
-        email: primaryEmail.email_address,
-        firstName: clerkUser.first_name,
-        lastName: clerkUser.last_name
+      console.log('Creating Saleor customer for Firebase user:', {
+        firebaseUserId: firebaseUser.uid,
+        email: firebaseUser.email,
+        displayName: firebaseUser.displayName,
+        phoneNumber: firebaseUser.phoneNumber
       });
 
       // TODO: Implement actual Saleor customer creation
       // This requires the proper GraphQL mutations to be available
       
       return {
-        id: `temp-${clerkUser.id}`,
-        email: primaryEmail.email_address,
-        firstName: clerkUser.first_name || '',
-        lastName: clerkUser.last_name || '',
+        id: `temp-${firebaseUser.uid}`,
+        email: firebaseUser.email,
+        firstName: firebaseUser.displayName?.split(' ')[0] || '',
+        lastName: firebaseUser.displayName?.split(' ').slice(1).join(' ') || '',
         metadata: [
-          { key: "clerk_user_id", value: clerkUser.id },
-          { key: "clerk_created_at", value: clerkUser.created_at.toString() }
+          { key: "firebase_user_id", value: firebaseUser.uid },
+          { key: "firebase_created_at", value: firebaseUser.createdAt.toString() },
+          { key: "phone_number", value: firebaseUser.phoneNumber || '' }
         ]
       };
     } catch (error) {
@@ -55,25 +49,26 @@ export class CustomerSyncService {
   }
 
   /**
-   * Update an existing customer in Saleor when user data changes in Clerk
+   * Update an existing customer in Saleor when user data changes in Firebase
    */
-  static async updateSaleorCustomer(clerkUser: ClerkUser) {
+  static async updateSaleorCustomer(firebaseUser: FirebaseUser) {
     try {
-      console.log('Updating Saleor customer for Clerk user:', {
-        clerkUserId: clerkUser.id,
-        updatedAt: clerkUser.updated_at
+      console.log('Updating Saleor customer for Firebase user:', {
+        firebaseUserId: firebaseUser.uid,
+        lastSignInTime: firebaseUser.lastSignInTime
       });
 
       // TODO: Implement actual Saleor customer update
       
       return {
-        id: `temp-${clerkUser.id}`,
-        email: clerkUser.email_addresses[0]?.email_address || '',
-        firstName: clerkUser.first_name || '',
-        lastName: clerkUser.last_name || '',
+        id: `temp-${firebaseUser.uid}`,
+        email: firebaseUser.email || '',
+        firstName: firebaseUser.displayName?.split(' ')[0] || '',
+        lastName: firebaseUser.displayName?.split(' ').slice(1).join(' ') || '',
         metadata: [
-          { key: "clerk_user_id", value: clerkUser.id },
-          { key: "clerk_updated_at", value: clerkUser.updated_at.toString() }
+          { key: "firebase_user_id", value: firebaseUser.uid },
+          { key: "firebase_last_sign_in", value: firebaseUser.lastSignInTime.toString() },
+          { key: "phone_number", value: firebaseUser.phoneNumber || '' }
         ]
       };
     } catch (error) {
@@ -83,18 +78,18 @@ export class CustomerSyncService {
   }
 
   /**
-   * Find Saleor customer by Clerk user ID
+   * Find Saleor customer by Firebase user ID
    */
-  static async getSaleorCustomerByClerkId(clerkUserId: string) {
+  static async getSaleorCustomerByFirebaseId(firebaseUserId: string) {
     try {
-      console.log('Looking up Saleor customer for Clerk user:', clerkUserId);
+      console.log('Looking up Saleor customer for Firebase user:', firebaseUserId);
       
       // TODO: Implement actual Saleor customer lookup
       // For now, return null to indicate no customer found
       
       return null;
     } catch (error) {
-      console.error('Failed to get Saleor customer by Clerk ID:', error);
+      console.error('Failed to get Saleor customer by Firebase ID:', error);
       return null;
     }
   }
@@ -102,9 +97,9 @@ export class CustomerSyncService {
   /**
    * Handle customer deletion (soft delete or anonymize)
    */
-  static async handleCustomerDeletion(clerkUser: ClerkUser) {
+  static async handleCustomerDeletion(firebaseUser: FirebaseUser) {
     try {
-      console.log('Handling customer deletion for Clerk user:', clerkUser.id);
+      console.log('Handling customer deletion for Firebase user:', firebaseUser.uid);
       
       // TODO: Implement proper customer deletion/anonymization logic
       

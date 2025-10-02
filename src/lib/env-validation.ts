@@ -3,8 +3,16 @@ export function validateEnvironmentVariables() {
   const errors: string[] = [];
   
   // Client-side variables (these are safe to expose)
-  if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
-    errors.push('Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY');
+  if (!process.env.NEXT_PUBLIC_FIREBASE_API_KEY) {
+    errors.push('Missing NEXT_PUBLIC_FIREBASE_API_KEY');
+  }
+  
+  if (!process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN) {
+    errors.push('Missing NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN');
+  }
+  
+  if (!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
+    errors.push('Missing NEXT_PUBLIC_FIREBASE_PROJECT_ID');
   }
   
   if (!process.env.NEXT_PUBLIC_SALEOR_API_URL) {
@@ -13,17 +21,6 @@ export function validateEnvironmentVariables() {
   
   if (!process.env.NEXT_PUBLIC_STOREFRONT_URL) {
     errors.push('Missing NEXT_PUBLIC_STOREFRONT_URL');
-  }
-  
-  // Server-side variables (these should only be checked on server)
-  if (typeof window === 'undefined') {
-    if (!process.env.CLERK_SECRET_KEY) {
-      errors.push('Missing CLERK_SECRET_KEY (server-side only)');
-    }
-    
-    if (!process.env.CLERK_WEBHOOK_SECRET) {
-      errors.push('Missing CLERK_WEBHOOK_SECRET (server-side only)');
-    }
   }
   
   return {
