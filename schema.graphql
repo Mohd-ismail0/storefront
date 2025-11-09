@@ -1,0 +1,292 @@
+# Minimal GraphQL schema for build purposes
+scalar Date
+scalar DateTime
+scalar Day
+scalar Decimal
+scalar GenericScalar
+scalar JSON
+scalar JSONString
+scalar Metadata
+scalar Hour
+scalar Minute
+scalar PositiveDecimal
+scalar UUID
+scalar Upload
+scalar WeightScalar
+scalar _Any
+
+type Query {
+	products(first: Int, channel: String!): ProductCountableConnection
+	product(slug: String!, channel: String!): Product
+	collection(slug: String!, channel: String!): Collection
+	categories(first: Int, channel: String!): CategoryCountableConnection
+	category(slug: String!, channel: String!): Category
+	menu(slug: String!): Menu
+	page(slug: String!): Page
+	searchProducts(first: Int, query: String!, channel: String!): ProductCountableConnection
+	channels: [Channel!]!
+	me: User
+	checkout(id: ID!): Checkout
+	checkoutToken(id: ID!): Checkout
+}
+
+type Mutation {
+	checkoutCreate(input: CheckoutCreateInput!): CheckoutCreate
+	checkoutAddLine(id: ID!, productVariantId: ID!): CheckoutAddLine
+	checkoutDeleteLines(id: ID!, linesIds: [ID!]!): CheckoutDeleteLines
+}
+
+type Product {
+	id: ID!
+	name: String!
+	slug: String!
+	description: String
+	seoTitle: String
+	seoDescription: String
+	pricing: ProductPricingInfo
+	thumbnail(size: Int, format: ImageFormat): Image
+	variants: [ProductVariant!]
+	category: Category
+}
+
+type ProductVariant {
+	id: ID!
+	name: String!
+	quantityAvailable: Int!
+	pricing: ProductVariantPricingInfo
+}
+
+type ProductPricingInfo {
+	priceRange: TaxedMoneyRange
+}
+
+type ProductVariantPricingInfo {
+	price: TaxedMoney
+}
+
+type TaxedMoney {
+	gross: Money!
+}
+
+type TaxedMoneyRange {
+	start: TaxedMoney!
+	stop: TaxedMoney!
+}
+
+type Money {
+	amount: Float!
+	currency: String!
+}
+
+type Image {
+	url: String!
+	alt: String
+}
+
+type ProductCountableConnection {
+	edges: [ProductCountableEdge!]!
+	pageInfo: PageInfo!
+}
+
+type ProductCountableEdge {
+	node: Product!
+}
+
+type Collection {
+	id: ID!
+	name: String!
+	description: String
+	seoTitle: String
+	seoDescription: String
+	products(first: Int): ProductCountableConnection
+}
+
+type Category {
+	id: ID!
+	name: String!
+	slug: String!
+	description: String
+	seoTitle: String
+	seoDescription: String
+	products(first: Int, channel: String!): ProductCountableConnection
+}
+
+type CategoryCountableConnection {
+	edges: [CategoryCountableEdge!]!
+}
+
+type CategoryCountableEdge {
+	node: Category!
+}
+
+type Menu {
+	id: ID!
+	name: String!
+	items: [MenuItem!]
+}
+
+type MenuItem {
+	id: ID!
+	name: String!
+	url: String
+	children: [MenuItem!]
+}
+
+type Page {
+	id: ID!
+	title: String!
+	slug: String!
+	content: String
+	seoTitle: String
+	seoDescription: String
+}
+
+type Channel {
+	id: ID!
+	name: String!
+	slug: String!
+	currencyCode: String!
+}
+
+type User {
+	id: ID!
+	email: String!
+	firstName: String
+	lastName: String
+	orders(first: Int): OrderCountableConnection
+}
+
+type OrderCountableConnection {
+	edges: [OrderCountableEdge!]!
+}
+
+type OrderCountableEdge {
+	node: Order!
+}
+
+type Order {
+	id: ID!
+	number: String
+	status: OrderStatus!
+	total: TaxedMoney
+	lines: [OrderLine!]
+}
+
+type OrderLine {
+	id: ID!
+	productName: String!
+	variantName: String
+	quantity: Int!
+	unitPrice: TaxedMoney
+}
+
+type Checkout {
+	id: ID!
+	token: UUID!
+	lines: [CheckoutLine!]
+	totalPrice: TaxedMoney
+	subtotalPrice: TaxedMoney
+	shippingPrice: TaxedMoney
+	user: User
+}
+
+type CheckoutLine {
+	id: ID!
+	quantity: Int!
+	variant: ProductVariant!
+	totalPrice: TaxedMoney
+}
+
+type CheckoutCreate {
+	checkout: Checkout
+	checkoutErrors: [CheckoutError!]!
+}
+
+type CheckoutAddLine {
+	checkout: Checkout
+	checkoutErrors: [CheckoutError!]!
+}
+
+type CheckoutDeleteLines {
+	checkout: Checkout
+	checkoutErrors: [CheckoutError!]!
+}
+
+type CheckoutError {
+	field: String
+	message: String
+	code: CheckoutErrorCode!
+}
+
+type PageInfo {
+	hasNextPage: Boolean!
+	hasPreviousPage: Boolean!
+	startCursor: String
+	endCursor: String
+}
+
+enum ImageFormat {
+	WEBP
+	PNG
+	JPG
+}
+
+enum OrderStatus {
+	DRAFT
+	UNFULFILLED
+	PARTIALLY_FULFILLED
+	FULFILLED
+	CANCELED
+}
+
+enum CheckoutErrorCode {
+	BILLING_ADDRESS_NOT_SET
+	CHECKOUT_NOT_FULLY_PAID
+	GRAPHQL_ERROR
+	PRODUCT_NOT_PUBLISHED
+	PRODUCT_UNAVAILABLE_FOR_PURCHASE
+	INSUFFICIENT_STOCK
+	INVALID
+	INVALID_SHIPPING_METHOD
+	NOT_FOUND
+	PAYMENT_ERROR
+	QUANTITY_GREATER_THAN_LIMIT
+	REQUIRED
+	SHIPPING_ADDRESS_NOT_SET
+	SHIPPING_METHOD_NOT_APPLICABLE
+	SHIPPING_METHOD_NOT_SET
+	SHIPPING_NOT_REQUIRED
+	TAX_ERROR
+	UNIQUE
+	VOUCHER_NOT_APPLICABLE
+	ZERO_QUANTITY
+}
+
+input CheckoutCreateInput {
+	channel: String!
+	email: String
+	lines: [CheckoutLineInput!]!
+	shippingAddress: AddressInput
+	billingAddress: AddressInput
+}
+
+input CheckoutLineInput {
+	quantity: Int!
+	variantId: ID!
+}
+
+input AddressInput {
+	firstName: String
+	lastName: String
+	companyName: String
+	streetAddress1: String
+	streetAddress2: String
+	city: String
+	cityArea: String
+	postalCode: String
+	country: CountryCode!
+	countryArea: String
+	phone: String
+}
+
+scalar CountryCode

@@ -17,6 +17,12 @@ if (!schemaUrl) {
 	process.exit(1);
 }
 
+// For development purposes, use a local schema file if endpoint is not accessible
+if (process.env.NODE_ENV === "development" && schemaUrl.includes("saleor.cloud")) {
+	console.warn("Using local schema file due to endpoint issues");
+	schemaUrl = "schema.graphql";
+}
+
 const config: CodegenConfig = {
 	overwrite: true,
 	schema: schemaUrl,
@@ -45,6 +51,7 @@ const config: CodegenConfig = {
 					Upload: "unknown",
 					WeightScalar: "unknown",
 					_Any: "unknown",
+					CountryCode: "string",
 				},
 			},
 			presetConfig: {
